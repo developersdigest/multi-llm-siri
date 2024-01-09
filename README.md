@@ -25,11 +25,11 @@ This project requires:
 
 Before running the project, configure your API keys in the `.env` file:
 
-# OpenAI API Key
+#### OpenAI API Key
 Get from https://platform.openai.com/account/api-keys
 OPENAI_API_KEY=""
 
-# Perplexity API Key
+#### Perplexity API Key
 Get from https://docs.perplexity.ai/docs/getting-started
 PERPLEXITY_API_KEY=""
 
