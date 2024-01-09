@@ -1,0 +1,31 @@
+{
+  "name": "llm-chatterbox",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.0.15",
+    "@langchain/openai": "^0.0.10",
+    "api": "^6.1.1",
+    "dotenv": "^16.3.1",
+    "langchain": "^0.1.1",
+    "next": "14.0.4",
+    "openai": "^4.24.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
