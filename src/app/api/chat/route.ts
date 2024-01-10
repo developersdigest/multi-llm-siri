@@ -23,7 +23,7 @@ interface ResponseData {
 const openai = new OpenAI();
 
 // 5. Function to create audio from text
-async function createAudio(introMessage: string, fullMessage: string, voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer") {
+async function createAudio( fullMessage: string, voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer") {
     const mp3 = await openai.audio.speech.create({
         model: "tts-1",
         voice: voice,
@@ -127,7 +127,7 @@ export async function POST(req: Request, res: Response): Promise<ResponseData> {
     
     // 18. Compile the full message and create the audio
     fullMessage = introMessage + gptMessage;
-    base64Audio = await createAudio(introMessage, fullMessage, voice);
+    base64Audio = await createAudio( fullMessage, voice);
     
     // 19. Return the response
     return Response.json({ data: base64Audio, contentType: 'audio/mp3', model: modelName });

@@ -156,7 +156,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      //14.2 Render model selection and recording button
+      {/* 14.2 Render model selection and recording button */}
       <div className="flex items-center justify-center h-screen w-full">
         <div className="w-full">
           <div className="grid grid-cols-3 gap-8 mt-10">
