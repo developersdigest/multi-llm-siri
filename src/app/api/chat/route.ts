@@ -4,19 +4,24 @@ import dotenv from "dotenv";
 import { OpenAI as LangchainOpenAI } from "@langchain/openai";
 import { Ollama } from "@langchain/community/llms/ollama";
 import api from 'api';
+
 // 1. Initialize the Perplexity SDK
 const sdk = api('@pplx/v0#rht322clnm9gt25');
+
 // 2. Configure environment variables
 dotenv.config();
 sdk.auth(process.env.PERPLEXITY_API_KEY);
+
 // 3. Define the response data structure
 interface ResponseData {
     data: string;
     contentType: string;
     model: string;
 }
+
 // 4. Initialize the OpenAI instance
 const openai = new OpenAI();
+
 // 5. Function to create audio from text
 async function createAudio(introMessage: string, fullMessage: string, voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer") {
     const mp3 = await openai.audio.speech.create({
@@ -27,18 +32,23 @@ async function createAudio(introMessage: string, fullMessage: string, voice: "al
     const buffer = Buffer.from(await mp3.arrayBuffer());
     return buffer.toString('base64');
 }
+
 // 6. HTTP POST handler function
 export async function POST(req: Request, res: Response): Promise<ResponseData> {
     const body = await req.json();
     let message = body.message.toLowerCase();
-    let modelName = body.prevModel || "gpt";
+    let modelName = body.model || "gpt";
+
     // 7. Function to remove the first word of a string
     const removeFirstWord = (text: string) => text.includes(" ") ? text.substring(text.indexOf(" ") + 1) : "";
     message = removeFirstWord(message);
+
     // 8. Initialize variables for messages and audio
     let introMessage = "", base64Audio, voice: "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer" = "echo", gptMessage, fullMessage;
+
     // 9. Common prompt for all models
     const commonPrompt = "Be precise and concise, never respond in more than 1-2 sentences! " + message;
+
     // 10. Handle different model cases
     if (modelName === "gpt") {
         const llm = new LangchainOpenAI({
@@ -110,13 +120,15 @@ export async function POST(req: Request, res: Response): Promise<ResponseData> {
             model: 'llama-2-70b-chat',
             messages: [{ role: 'user', content: commonPrompt }]
         });
-        gptMessage = response.data.choices[0].message.content;
+        gptMessage = response.data.choices[0]. message.content;
         introMessage = "Llama 2 70B here, ";
         voice = "nova";
     }
+    
     // 18. Compile the full message and create the audio
     fullMessage = introMessage + gptMessage;
     base64Audio = await createAudio(introMessage, fullMessage, voice);
+    
     // 19. Return the response
     return Response.json({ data: base64Audio, contentType: 'audio/mp3', model: modelName });
 }
